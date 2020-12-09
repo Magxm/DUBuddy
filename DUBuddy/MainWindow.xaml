@@ -1,0 +1,48 @@
+﻿<Window x:Class="DUBuddy.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        xmlns:local="clr-namespace:DUBuddy"
+        mc:Ignorable="d"
+        Title="DUBuddy" Height="1080" Width="1920" ResizeMode="NoResize"
+    >
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid Background="LightGray">
+            <Grid Height="60" VerticalAlignment="Top" Background="White">
+                <TextBlock x:Name="ModuleText" Style="{DynamicResource MaterialDesignHeadline6TextBlock}" Text="Please select a Module" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22"></TextBlock>
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Horizontal" Background="#FF0797C1">
+                </StackPanel>
+            </Grid>
+            <StackPanel Orientation="Horizontal">
+                <Grid x:Name="NavigationGrid" Width="300" HorizontalAlignment="Left" Background="#FFFDFDFD">
+                    <StackPanel>
+                        <Image x:Name="DULogoImage" Width="300">
+                            <Image.Source>
+                                <BitmapImage DecodePixelWidth="300" UriSource="/Resources/DULogo.png"></BitmapImage>
+                            </Image.Source>
+                        </Image>
+                        <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListViewItem Height="60" PreviewMouseLeftButtonUp="IndustryCalculator_Click">
+                                <StackPanel Orientation="Horizontal" Background="{x:Null}">
+                                    <materialDesign:PackIcon Kind="Calculator" Width="25" Height="25" VerticalAlignment="Center"></materialDesign:PackIcon>
+                                    <TextBlock Text="Industry Calculator" VerticalAlignment="Center" Margin="40 10" FontSize="14"></TextBlock>
+                                </StackPanel>
+                            </ListViewItem>
+                        </ListView>
+                    </StackPanel>
+                </Grid>
+                <Grid x:Name="ContentGrid" Width="Auto" Margin="0 60">
+                    <Frame x:Name="ContentFrame"></Frame>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Window>

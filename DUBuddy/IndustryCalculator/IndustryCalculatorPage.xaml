@@ -1,0 +1,140 @@
+﻿<Page x:Class="DUBuddy.IndustryCalculator.IndustryCalculatorPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:DUBuddy.IndustryCalculator"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontSize="13"
+      TextOptions.TextFormattingMode="Ideal" 
+      TextOptions.TextRenderingMode="Auto"  
+      mc:Ignorable="d" 
+      d:DesignHeight="810" d:DesignWidth="1080"
+      Title="IndustryCalculatorPage">
+    <Grid>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel x:Name="WantedProductsStackPanel" Margin="20 0" Orientation="Vertical" Width="375" HorizontalAlignment="Left">
+                <TextBlock Text="Wanted end results:" FontSize="20"></TextBlock>
+                <DataGrid x:Name="WantedResultsDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding}" Width="375" HorizontalAlignment="Left">
+                    <DataGrid.Resources>
+                        <local:IndustryProductList x:Key="ProductList"></local:IndustryProductList>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+                        <DataGridComboBoxColumn Header="Product Name" SelectedItemBinding="{Binding ResultTypeName}" ItemsSource="{Binding Source={StaticResource ProductList}}" ></DataGridComboBoxColumn>
+                        <DataGridTextColumn Binding="{Binding MachineAmount}" Header="Amount of Machines"></DataGridTextColumn>
+                        <DataGridTemplateColumn Header="Remove">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Click="DeleteWantedProduct_Click"
+                                Height="20"
+                                Width="20"
+                                BorderBrush="{x:Null}"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Padding="0"
+                                Background="Transparent"
+                                >
+                                        <materialDesign:PackIcon Height="30" Width="30"  Kind="RemoveCircle" Margin="0 0" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Black"/>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Button Click="AddProductButton_Click" Background="White" Foreground="Black" HorizontalAlignment="Stretch" Width="250">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Height="20" Width="20" Kind="Add"></materialDesign:PackIcon>
+                            <TextBlock Text="Add new Product Entry"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Click="CalculateButton_Click" Background="White" Foreground="Black" HorizontalAlignment="Stretch" Width="125">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Height="20" Width="20" Kind="Industrial"></materialDesign:PackIcon>
+                            <TextBlock Text="Calculate"></TextBlock>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel x:Name="IndustryResultDescription" Margin="20 0" Orientation="Horizontal" HorizontalAlignment="Left" Visibility="Visible">
+                <StackPanel x:Name="IndustryResultDescription_LeftSide" Orientation="Vertical">
+                    <StackPanel x:Name="NeededBuildings" Orientation="Vertical">
+                        <TextBlock Text="Needed Buildings:" FontSize="20"></TextBlock>
+                        <DataGrid x:Name="NeededBuildingDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding}" Width="250" HorizontalAlignment="Left" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="165"></DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding Amount}" Header="Amount" Width="85"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+
+                    <StackPanel x:Name="NeededOres" Orientation="Vertical">
+                        <TextBlock FontSize="20">Ores Per Minute Needed:</TextBlock>
+                        <DataGrid x:Name="NeededOreDataGrid" AutoGenerateColumns="False" ItemsSource="{Binding}" Width="250" HorizontalAlignment="Left" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="165"></DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding AmountNeededPerMinute}" Header="Amount" Width="85"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock FontSize="16">Recommended Max Ore Buy Price:</TextBlock>
+                        <TextBlock x:Name="RecommendedOrePriceText"></TextBlock>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel x:Name="IndustryResultDescription_RightSide" Margin="20 0" Orientation="Vertical">
+                    <TextBlock FontSize="20">Needed Buildings:</TextBlock>
+                    <DataGrid x:Name="ProductionOverview" AutoGenerateColumns="False" ItemsSource="{Binding}" HorizontalAlignment="Left">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="165"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding ProductionPerMinute}" Header="Production/min" Width="125"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding BuildingName}" Header="Building" Width="175"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding BuildingAmount}" Header="Building Amount" Width="125"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding MinMoneyPerMinute}" Header="Min Sell/min" Width="125"></DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding MaxMoneyPerMinute}" Header="Max Sell/min" Width="125"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontSize="16" Margin="0 0 0 0">Min Sell:</TextBlock>
+                        <TextBlock FontSize="16" Margin="10 0 0 0" Foreground="Blue" x:Name="MinSellMoneyPerMinText"></TextBlock>
+                        <TextBlock FontSize="16" Margin="0 0 0 0">/min</TextBlock>
+                        <TextBlock FontSize="16" Margin="10 0 0 0" Foreground="Blue" x:Name="MinSellMoneyPerHourText"></TextBlock>
+                        <TextBlock FontSize="16" Margin="0 0 0 0">/hour</TextBlock>
+                        <TextBlock FontSize="16" Margin="10 0 0 0" Foreground="Blue" x:Name="MinSellMoneyPerDayText"></TextBlock>
+                        <TextBlock FontSize="16" Margin="0 0 0 0">/day</TextBlock>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontSize="16" Margin="0 0 0 0">Max Sell:</TextBlock>
+                        <TextBlock FontSize="16" Margin="10 0 0 0" Foreground="Blue" x:Name="MaxSellMoneyPerMinText"></TextBlock>
+                        <TextBlock FontSize="16" Margin="0 0 0 0">/min</TextBlock>
+                        <TextBlock FontSize="16" Margin="10 0 0 0" Foreground="Blue" x:Name="MaxSellMoneyPerHourText"></TextBlock>
+                        <TextBlock FontSize="16" Margin="0 0 0 0">/hour</TextBlock>
+                        <TextBlock FontSize="16" Margin="10 0 0 0" Foreground="Blue" x:Name="MaxSellMoneyPerDayText"></TextBlock>
+                        <TextBlock FontSize="16" Margin="0 0 0 0">/day</TextBlock>
+                    </StackPanel>
+
+                    <TextBlock FontSize="16" Margin="0 10 0 0">When buying ore at recommended price and selling at Max:</TextBlock>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock>Profit Margin:</TextBlock>
+                        <TextBlock x:Name="ProfitMargin" Margin="10 0 0 0"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontSize="16" Margin="0 0 0 0">Profit:</TextBlock>
+                        <TextBlock FontSize="16" Margin="10 0 0 0" x:Name="ProfitMoneyPerMinText"></TextBlock>
+                        <TextBlock FontSize="16" Margin="0 0 0 0">/min</TextBlock>
+                        <TextBlock FontSize="16" Margin="10 0 0 0" x:Name="ProfitMoneyPerHourText"></TextBlock>
+                        <TextBlock FontSize="16" Margin="0 0 0 0">/hour</TextBlock>
+                        <TextBlock FontSize="16" Margin="10 0 0 0" x:Name="ProfitMoneyPerDayText"></TextBlock>
+                        <TextBlock FontSize="16" Margin="0 0 0 0">/day</TextBlock>
+                    </StackPanel>
+
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>
